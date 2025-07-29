@@ -1,0 +1,269 @@
+// Use variables and mixins
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Base card styles
+.card {
+  @include cyberpunk-card;
+  transition: all $transition-base;
+  
+  // Card header
+  &-header {
+    padding: $spacing-lg $spacing-lg $spacing-md;
+    border-bottom: 1px solid rgba($cyberpunk-yellow, 0.2);
+    
+    .card-title {
+      margin: 0;
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      color: $cyberpunk-yellow;
+      font-family: $font-primary;
+    }
+    
+    .card-subtitle {
+      margin: $spacing-xs 0 0;
+      font-size: $font-size-sm;
+      color: $cyberpunk-light-gray;
+      font-weight: $font-weight-normal;
+    }
+  }
+  
+  // Card body
+  &-body {
+    padding: $spacing-lg;
+    
+    .card-text {
+      color: $cyberpunk-light-gray;
+      line-height: 1.6;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  // Card footer
+  &-footer {
+    padding: $spacing-md $spacing-lg $spacing-lg;
+    border-top: 1px solid rgba($cyberpunk-yellow, 0.2);
+    @include flex-between;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+      align-items: stretch;
+    }
+  }
+  
+  // Card variants
+  &.card-hover {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px);
+      @include neon-glow($cyberpunk-yellow, 0.5);
+      
+      .card-title {
+        @include neon-text-glow($cyberpunk-yellow, 0.6);
+      }
+    }
+  }
+  
+  &.card-interactive {
+    cursor: pointer;
+    transition: all $transition-base;
+    
+    &:hover {
+      border-color: rgba($cyberpunk-yellow, 0.8);
+      @include neon-glow($cyberpunk-yellow, 0.4);
+    }
+    
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+  
+  &.card-glow {
+    @include neon-glow($cyberpunk-yellow, 0.3);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  &.card-blue {
+    border-color: rgba($cyberpunk-blue, 0.3);
+    
+    &::before {
+      background: linear-gradient(135deg, 
+        rgba($cyberpunk-blue, 0.1) 0%, 
+        transparent 50%, 
+        rgba($cyberpunk-yellow, 0.1) 100%);
+    }
+    
+    .card-title {
+      color: $cyberpunk-blue;
+    }
+    
+    &:hover {
+      border-color: rgba($cyberpunk-blue, 0.6);
+      @include neon-glow($cyberpunk-blue, 0.3);
+    }
+  }
+  
+  &.card-purple {
+    border-color: rgba($cyberpunk-purple, 0.3);
+    
+    &::before {
+      background: linear-gradient(135deg, 
+        rgba($cyberpunk-purple, 0.1) 0%, 
+        transparent 50%, 
+        rgba($cyberpunk-yellow, 0.1) 100%);
+    }
+    
+    .card-title {
+      color: $cyberpunk-purple;
+    }
+    
+    &:hover {
+      border-color: rgba($cyberpunk-purple, 0.6);
+      @include neon-glow($cyberpunk-purple, 0.3);
+    }
+  }
+}
+
+// Card grid
+.card-grid {
+  display: grid;
+  gap: $spacing-lg;
+  
+  &.grid-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  &.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    
+    @include desktop {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Technology card (special variant)
+.tech-card {
+  @include cyberpunk-card;
+  @include flex-column-center;
+  padding: $spacing-lg;
+  text-align: center;
+  min-height: 120px;
+  transition: all $transition-base;
+  cursor: pointer;
+  
+  .tech-icon {
+    font-size: 2.5rem;
+    color: $cyberpunk-yellow;
+    margin-bottom: $spacing-sm;
+    transition: all $transition-base;
+  }
+  
+  .tech-name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $cyberpunk-white;
+    margin: 0;
+    font-family: $font-primary;
+  }
+  
+  .tech-category {
+    font-size: $font-size-xs;
+    color: $cyberpunk-light-gray;
+    margin-top: $spacing-xs;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  &:hover {
+    transform: translateY(-4px);
+    @include neon-glow($cyberpunk-yellow, 0.4);
+    
+    .tech-icon {
+      @include neon-text-glow($cyberpunk-yellow, 0.8);
+      transform: scale(1.1);
+    }
+    
+    .tech-name {
+      color: $cyberpunk-yellow;
+    }
+  }
+}
+
+// Profile card
+.profile-card {
+  @include cyberpunk-card;
+  @include flex-column-center;
+  text-align: center;
+  padding: $spacing-xl;
+  
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid $cyberpunk-yellow;
+    @include neon-glow($cyberpunk-yellow, 0.5);
+    margin-bottom: $spacing-lg;
+    object-fit: cover;
+    
+    @include mobile {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  
+  .profile-name {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-black;
+    color: $cyberpunk-yellow;
+    margin-bottom: $spacing-sm;
+    font-family: $font-primary;
+    @include neon-text-glow($cyberpunk-yellow, 0.6);
+  }
+  
+  .profile-title {
+    font-size: $font-size-lg;
+    color: $cyberpunk-blue;
+    margin-bottom: $spacing-lg;
+    font-weight: $font-weight-medium;
+  }
+  
+  .profile-description {
+    color: $cyberpunk-light-gray;
+    line-height: 1.6;
+    max-width: 400px;
+  }
+}

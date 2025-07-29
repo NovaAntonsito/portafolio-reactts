@@ -1,0 +1,50 @@
+.main-content {
+  padding-top: 80px; /* Account for fixed navigation */
+}
+
+.section {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 3rem;
+      color: #fcff00;
+      text-shadow: 0 0 10px rgba(252, 255, 0, 0.8);
+      margin-bottom: 2rem;
+    }
+
+    p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #ffffff;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 1rem;
+
+    &__content {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+}

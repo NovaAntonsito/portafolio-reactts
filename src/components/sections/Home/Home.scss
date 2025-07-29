@@ -1,0 +1,529 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+@use 'sass:color';
+
+.home {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  
+  // Ensure content is above background elements
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: $spacing-3xl;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-xl 0;
+    
+    @include tablet {
+      grid-template-columns: 1fr;
+      gap: $spacing-2xl;
+      text-align: center;
+      padding: $spacing-lg 0;
+    }
+    
+    @include mobile {
+      gap: $spacing-xl;
+      padding: $spacing-md 0;
+    }
+  }
+  
+  // Image Section
+  &__image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slide-in-left 1s ease-out;
+    
+    @include tablet {
+      animation: slide-in-up 1s ease-out 0.2s both;
+    }
+  }
+  
+  &__image-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    
+    @include mobile {
+      width: 250px;
+      height: 250px;
+    }
+  }
+  
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid $cyberpunk-yellow;
+    box-shadow: 
+      0 0 20px rgba($cyberpunk-yellow, 0.5),
+      0 0 40px rgba($cyberpunk-yellow, 0.3),
+      inset 0 0 20px rgba($cyberpunk-yellow, 0.1);
+    transition: all $transition-base;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 30px rgba($cyberpunk-yellow, 0.7),
+        0 0 60px rgba($cyberpunk-yellow, 0.4),
+        inset 0 0 30px rgba($cyberpunk-yellow, 0.2);
+    }
+  }
+  
+  &__image-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid $cyberpunk-yellow;
+    background: linear-gradient(135deg, 
+      rgba($cyberpunk-dark-gray, 0.8) 0%, 
+      rgba($cyberpunk-gray, 0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $cyberpunk-yellow;
+    box-shadow: 
+      0 0 20px rgba($cyberpunk-yellow, 0.5),
+      0 0 40px rgba($cyberpunk-yellow, 0.3),
+      inset 0 0 20px rgba($cyberpunk-yellow, 0.1);
+    transition: all $transition-base;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 30px rgba($cyberpunk-yellow, 0.7),
+        0 0 60px rgba($cyberpunk-yellow, 0.4),
+        inset 0 0 30px rgba($cyberpunk-yellow, 0.2);
+    }
+    
+    &-icon {
+      opacity: 0.7;
+      transition: opacity $transition-base;
+    }
+    
+    &:hover &-icon {
+      opacity: 1;
+    }
+  }
+  
+  &__image-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+      rgba($cyberpunk-yellow, 0.2) 0%, 
+      transparent 70%);
+    animation: pulse-glow 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  // Text Content Section
+  &__text-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+    animation: slide-in-right 1s ease-out;
+    
+    @include tablet {
+      animation: slide-in-up 1s ease-out;
+    }
+  }
+  
+  &__greeting {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+  
+  &__title {
+    font-family: $font-primary;
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    margin: 0;
+    
+    &-greeting {
+      display: block;
+      font-size: $font-size-2xl;
+      color: $cyberpunk-yellow;
+      text-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+      animation: flicker 2s ease-in-out infinite alternate;
+      
+      @include mobile {
+        font-size: $font-size-xl;
+      }
+    }
+    
+    &-name {
+      display: block;
+      font-size: $font-size-4xl;
+      color: $cyberpunk-white;
+      text-shadow: 
+        0 0 10px rgba($cyberpunk-white, 0.3),
+        0 0 20px rgba($cyberpunk-yellow, 0.2);
+      
+      @include mobile {
+        font-size: $font-size-3xl;
+      }
+    }
+  }
+  
+  &__subtitle {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-medium;
+    color: $cyberpunk-blue;
+    text-shadow: 0 0 8px rgba($cyberpunk-blue, 0.4);
+    margin: 0;
+    
+    @include mobile {
+      font-size: $font-size-lg;
+    }
+  }
+  
+  &__description {
+    &-text {
+      font-family: $font-secondary;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-normal;
+      line-height: 1.6;
+      color: $cyberpunk-light-gray;
+      margin: 0;
+      transition: color $transition-base;
+      
+      @include mobile {
+        font-size: $font-size-base;
+      }
+      
+      &:hover {
+        color: $cyberpunk-white;
+      }
+    }
+  }
+  
+  // Call to Action Button
+  &__cta {
+    margin-top: $spacing-md;
+  }
+  
+  &__cta-button {
+    position: relative;
+    background: transparent;
+    border: 2px solid $cyberpunk-yellow;
+    color: $cyberpunk-yellow;
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    padding: $spacing-md $spacing-xl;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all $transition-base;
+    overflow: hidden;
+    
+    &:hover {
+      color: $cyberpunk-black;
+      transform: translateY(-2px);
+      box-shadow: 
+        0 5px 15px rgba($cyberpunk-yellow, 0.4),
+        0 0 20px rgba($cyberpunk-yellow, 0.3);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  &__cta-text {
+    position: relative;
+    z-index: 2;
+  }
+  
+  &__cta-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: $cyberpunk-yellow;
+    transition: left $transition-base;
+    z-index: 1;
+  }
+  
+  &__cta-button:hover &__cta-glow {
+    left: 0;
+  }
+  
+  // Social Preview Section
+  &__social-preview {
+    margin-top: $spacing-xl;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    @include mobile {
+      margin-top: $spacing-lg;
+    }
+    
+    &-text {
+      font-family: $font-secondary;
+      font-size: $font-size-sm;
+      color: $cyberpunk-light-gray;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+    }
+    
+    &-links {
+      display: flex;
+      gap: $spacing-lg;
+      
+      @include mobile {
+        justify-content: center;
+        gap: $spacing-md;
+      }
+    }
+  }
+  
+  &__social-link {
+    position: relative;
+    display: inline-block;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid rgba($cyberpunk-blue, 0.5);
+    color: $cyberpunk-blue;
+    text-decoration: none;
+    font-family: $font-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all $transition-base;
+    overflow: hidden;
+    
+    &:hover {
+      color: $cyberpunk-black;
+      border-color: $cyberpunk-blue;
+      transform: translateY(-2px);
+      box-shadow: 
+        0 5px 15px rgba($cyberpunk-blue, 0.3),
+        0 0 20px rgba($cyberpunk-blue, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    &-text {
+      position: relative;
+      z-index: 2;
+    }
+    
+    &-glow {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: $cyberpunk-blue;
+      transition: left $transition-base;
+      z-index: 1;
+    }
+    
+    &:hover &-glow {
+      left: 0;
+    }
+  }
+  
+  // Background Elements
+  &__bg-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  &__bg-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba($cyberpunk-yellow, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($cyberpunk-yellow, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 20s linear infinite;
+    opacity: 0.3;
+  }
+  
+  &__bg-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  &__particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: $cyberpunk-yellow;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.8);
+    
+    &--1 {
+      top: 20%;
+      left: 10%;
+      animation: float-1 6s ease-in-out infinite;
+    }
+    
+    &--2 {
+      top: 60%;
+      left: 20%;
+      animation: float-2 8s ease-in-out infinite;
+    }
+    
+    &--3 {
+      top: 30%;
+      right: 15%;
+      animation: float-3 7s ease-in-out infinite;
+    }
+    
+    &--4 {
+      top: 70%;
+      right: 25%;
+      animation: float-4 9s ease-in-out infinite;
+    }
+    
+    &--5 {
+      top: 15%;
+      left: 60%;
+      animation: float-5 5s ease-in-out infinite;
+    }
+    
+    &--6 {
+      top: 80%;
+      left: 70%;
+      animation: float-6 10s ease-in-out infinite;
+    }
+  }
+}
+
+// Animations
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+  }
+  50% {
+    opacity: 0.8;
+    text-shadow: 0 0 20px rgba($cyberpunk-yellow, 0.8);
+  }
+}
+
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-20px) translateX(10px); }
+  66% { transform: translateY(10px) translateX(-5px); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(15px) translateX(-10px); }
+  66% { transform: translateY(-10px) translateX(15px); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-15px) translateX(-10px); }
+  66% { transform: translateY(20px) translateX(5px); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(10px) translateX(15px); }
+  66% { transform: translateY(-20px) translateX(-10px); }
+}
+
+@keyframes float-5 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-10px) translateX(-15px); }
+  66% { transform: translateY(15px) translateX(10px); }
+}
+
+@keyframes float-6 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(20px) translateX(-5px); }
+  66% { transform: translateY(-15px) translateX(20px); }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

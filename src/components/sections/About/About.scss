@@ -1,0 +1,345 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+
+.about {
+  min-height: 100vh;
+  padding: $spacing-3xl 0;
+  background: $cyberpunk-black;
+  position: relative;
+  
+  // Cyberpunk background effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba($cyberpunk-yellow, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba($cyberpunk-blue, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba($cyberpunk-purple, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  // Animated grid lines
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba($cyberpunk-yellow, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($cyberpunk-yellow, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 20s linear infinite;
+    pointer-events: none;
+  }
+  
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    position: relative;
+    z-index: 1;
+    
+    @include tablet-up {
+      padding: 0 $spacing-xl;
+    }
+  }
+  
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-3xl;
+  }
+  
+  &__title {
+    font-family: $font-primary;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: $cyberpunk-yellow;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    @include neon-text-glow($cyberpunk-yellow, 0.8);
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+    
+    @include tablet-up {
+      font-size: $font-size-5xl;
+    }
+  }
+  
+  &__content {
+    display: grid;
+    gap: $spacing-3xl;
+    
+    @include desktop-up {
+      grid-template-columns: 1fr 2fr;
+      gap: $spacing-3xl;
+    }
+  }
+  
+  &__text {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+  
+  &__description {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    line-height: 1.6;
+    color: $cyberpunk-white;
+    margin: 0;
+    
+    @include tablet-up {
+      font-size: $font-size-xl;
+    }
+  }
+  
+  &__technologies {
+    @include flex-column;
+    gap: $spacing-xl;
+  }
+  
+  &__technologies-title {
+    font-family: $font-primary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $cyberpunk-yellow;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    @include neon-text-glow($cyberpunk-yellow, 0.6);
+    
+    @include tablet-up {
+      font-size: $font-size-3xl;
+    }
+  }
+  
+  &__tech-grid {
+    display: grid;
+    gap: $spacing-xl;
+    
+    @include tablet-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop-up {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &__tech-category {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+  
+  &__category-title {
+    font-family: $font-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $cyberpunk-blue;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    @include neon-text-glow($cyberpunk-blue, 0.4);
+    
+    @include tablet-up {
+      font-size: $font-size-xl;
+    }
+  }
+  
+  &__tech-list {
+    display: grid;
+    gap: $spacing-md;
+    
+    @include mobile-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include tablet-up {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Technology Card Styles
+.tech-card {
+  @include cyberpunk-card;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transform: translateY(0);
+  transition: all $transition-base;
+  
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba($cyberpunk-yellow, 0.8);
+    @include neon-glow($cyberpunk-yellow, 0.5);
+    
+    .tech-card__name {
+      color: $cyberpunk-yellow;
+      @include neon-text-glow($cyberpunk-yellow, 0.3);
+    }
+    
+    .tech-card__bar--active {
+      @include neon-glow($cyberpunk-yellow, 0.3);
+      animation: pulse-glow 1s ease-in-out infinite alternate;
+    }
+  }
+  
+  &__content {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+  
+  &__name {
+    font-family: $font-secondary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $cyberpunk-white;
+    margin: 0;
+    transition: all $transition-base;
+    
+    @include tablet-up {
+      font-size: $font-size-lg;
+    }
+  }
+  
+  &__proficiency {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+  
+  &__proficiency-bars {
+    display: flex;
+    gap: $spacing-xs;
+  }
+  
+  &__bar {
+    height: 4px;
+    width: 20px;
+    background: rgba($cyberpunk-gray, 0.5);
+    border-radius: $border-radius-sm;
+    transition: all $transition-base;
+    position: relative;
+    
+    &--active {
+      background: $cyberpunk-yellow;
+      box-shadow: 0 0 3px rgba($cyberpunk-yellow, 0.6);
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, 
+          transparent 0%, 
+          rgba($cyberpunk-yellow, 0.8) 50%, 
+          transparent 100%);
+        animation: shimmer 2s ease-in-out infinite;
+      }
+    }
+  }
+  
+  &__proficiency-label {
+    font-family: $font-secondary;
+    font-size: $font-size-xs;
+    color: $cyberpunk-light-gray;
+    text-transform: capitalize;
+    
+    @include tablet-up {
+      font-size: $font-size-sm;
+    }
+  }
+}
+// En
+trance Animations
+.about {
+  animation: fadeInUp 1s ease-out;
+  
+  &__title {
+    animation: fadeInUp 1s ease-out 0.2s both, pulse-glow 2s ease-in-out infinite alternate 1.2s;
+  }
+  
+  &__description {
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+  
+  &__technologies-title {
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+  
+  &__tech-category {
+    animation: fadeInUp 1s ease-out both;
+    
+    &:nth-child(1) { animation-delay: 0.8s; }
+    &:nth-child(2) { animation-delay: 1s; }
+    &:nth-child(3) { animation-delay: 1.2s; }
+    &:nth-child(4) { animation-delay: 1.4s; }
+  }
+}
+
+.tech-card {
+  animation: fadeInScale 0.6s ease-out both;
+  
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+  &:nth-child(5) { animation-delay: 0.5s; }
+  &:nth-child(6) { animation-delay: 0.6s; }
+  &:nth-child(7) { animation-delay: 0.7s; }
+}
+
+// Additional Keyframes
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse-text {
+  0%, 100% { 
+    text-shadow: 
+      0 0 5px rgba($cyberpunk-yellow, 0.8),
+      0 0 10px rgba($cyberpunk-yellow, 0.6),
+      0 0 15px rgba($cyberpunk-yellow, 0.4);
+  }
+  50% { 
+    text-shadow: 
+      0 0 10px rgba($cyberpunk-yellow, 1),
+      0 0 20px rgba($cyberpunk-yellow, 0.8),
+      0 0 30px rgba($cyberpunk-yellow, 0.6);
+  }
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}

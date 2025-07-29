@@ -1,0 +1,100 @@
+// Convert px to rem
+@function rem($pixels, $context: 16) {
+    @return #{$pixels / $context}rem;
+}
+
+// Convert px to em
+@function em($pixels, $context: 16) {
+    @return #{$pixels / $context}em;
+}
+
+// Strip unit from number
+@function strip-unit($number) {
+    @if type-of($number)=='number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+// Calculate contrast ratio
+@function contrast-ratio($color1, $color2) {
+    $luminance1: luminance($color1) + 0.05;
+    $luminance2: luminance($color2) + 0.05;
+
+    @if $luminance1 >$luminance2 {
+        @return $luminance1 / $luminance2;
+    }
+
+    @else {
+        @return $luminance2 / $luminance1;
+    }
+}
+
+// Calculate luminance
+@function luminance($color) {
+    $red: red($color) / 255;
+    $green: green($color) / 255;
+    $blue: blue($color) / 255;
+
+    $red: if($red <=0.03928, $red / 12.92, pow(($red + 0.055) / 1.055, 2.4));
+    $green: if($green <=0.03928, $green / 12.92, pow(($green + 0.055) / 1.055, 2.4));
+    $blue: if($blue <=0.03928, $blue / 12.92, pow(($blue + 0.055) / 1.055, 2.4));
+
+    @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
+}
+
+// Power function
+@function pow($number, $exponent) {
+    $value: 1;
+
+    @if $exponent >0 {
+        @for $i from 1 through $exponent {
+            $value: $value * $number;
+        }
+    }
+
+    @else if $exponent < 0 {
+        @for $i from 1 through -$exponent {
+            $value: $value / $number;
+        }
+    }
+
+    @return $value;
+}
+
+// Get color with opacity
+@function alpha($color, $opacity) {
+    @return rgba($color, $opacity);
+}
+
+// Lighten color
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+
+// Darken color
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+
+// Create cyberpunk gradient
+@function cyberpunk-gradient($direction: 45deg, $color1: $cyberpunk-yellow, $color2: $cyberpunk-blue) {
+    @return linear-gradient($direction, $color1, $color2);
+}
+
+// Generate neon glow shadow
+@function neon-shadow($color: $cyberpunk-yellow, $intensity: 1) {
+    @return 0 0 5px rgba($color, 0.5 * $intensity),
+    0 0 10px rgba($color, 0.3 * $intensity),
+    0 0 15px rgba($color, 0.2 * $intensity),
+    0 0 20px rgba($color, 0.1 * $intensity);
+}
+
+// Generate text shadow for neon effect
+@function neon-text-shadow($color: $cyberpunk-yellow, $intensity: 1) {
+    @return 0 0 5px rgba($color, 0.8 * $intensity),
+    0 0 10px rgba($color, 0.6 * $intensity),
+    0 0 15px rgba($color, 0.4 * $intensity),
+    0 0 20px rgba($color, 0.2 * $intensity);
+}

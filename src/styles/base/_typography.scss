@@ -1,0 +1,305 @@
+// Use variables and mixins
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+// Headings
+h1 {
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-black;
+  color: $cyberpunk-yellow;
+  @include neon-text-glow($cyberpunk-yellow, 0.8);
+  
+  @include mobile {
+    font-size: $font-size-4xl;
+  }
+}
+
+h2 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $cyberpunk-yellow;
+  @include neon-text-glow($cyberpunk-yellow, 0.6);
+  
+  @include mobile {
+    font-size: $font-size-3xl;
+  }
+}
+
+h3 {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $cyberpunk-white;
+  
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+h4 {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  color: $cyberpunk-white;
+  
+  @include mobile {
+    font-size: $font-size-xl;
+  }
+}
+
+h5 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $cyberpunk-white;
+  
+  @include mobile {
+    font-size: $font-size-lg;
+  }
+}
+
+h6 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $cyberpunk-light-gray;
+  
+  @include mobile {
+    font-size: $font-size-base;
+  }
+}
+
+// Body text
+p {
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  color: $cyberpunk-light-gray;
+  line-height: 1.6;
+  margin-bottom: $spacing-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  &.lead {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $cyberpunk-white;
+  }
+  
+  &.small {
+    font-size: $font-size-sm;
+  }
+}
+
+// Links
+a {
+  color: $cyberpunk-yellow;
+  text-decoration: none;
+  transition: all $transition-base;
+  position: relative;
+  
+  &:hover {
+    color: $cyberpunk-yellow-light;
+    @include neon-text-glow($cyberpunk-yellow, 0.5);
+  }
+  
+  &:focus {
+    outline: 2px solid $cyberpunk-yellow;
+    outline-offset: 2px;
+  }
+  
+  &.link-underline {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: $cyberpunk-yellow;
+      transition: width $transition-base;
+    }
+    
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+// Lists
+ul,
+ol {
+  margin: 0;
+  padding-left: $spacing-lg;
+  color: $cyberpunk-light-gray;
+  
+  li {
+    margin-bottom: $spacing-sm;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+ul {
+  list-style-type: none;
+  
+  li {
+    position: relative;
+    
+    &::before {
+      content: '▶';
+      color: $cyberpunk-yellow;
+      position: absolute;
+      left: -$spacing-lg;
+      top: 0;
+    }
+  }
+}
+
+// Code
+code {
+  font-family: 'Courier New', monospace;
+  font-size: $font-size-sm;
+  background: rgba($cyberpunk-dark-gray, 0.8);
+  color: $cyberpunk-yellow;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  border: 1px solid rgba($cyberpunk-yellow, 0.3);
+}
+
+pre {
+  background: rgba($cyberpunk-dark-gray, 0.9);
+  color: $cyberpunk-white;
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
+  border: 1px solid rgba($cyberpunk-yellow, 0.3);
+  overflow-x: auto;
+  
+  code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: $font-size-sm;
+  }
+}
+
+// Blockquote
+blockquote {
+  border-left: 4px solid $cyberpunk-yellow;
+  padding-left: $spacing-lg;
+  margin: $spacing-lg 0;
+  font-style: italic;
+  color: $cyberpunk-white;
+  background: rgba($cyberpunk-dark-gray, 0.3);
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
+  
+  p {
+    margin-bottom: $spacing-sm;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  cite {
+    display: block;
+    margin-top: $spacing-sm;
+    font-size: $font-size-sm;
+    color: $cyberpunk-light-gray;
+    font-style: normal;
+    
+    &::before {
+      content: '— ';
+    }
+  }
+}
+
+// Utility classes
+.text-primary {
+  color: $cyberpunk-yellow !important;
+}
+
+.text-secondary {
+  color: $cyberpunk-blue !important;
+}
+
+.text-white {
+  color: $cyberpunk-white !important;
+}
+
+.text-gray {
+  color: $cyberpunk-light-gray !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.font-primary {
+  font-family: $font-primary !important;
+}
+
+.font-secondary {
+  font-family: $font-secondary !important;
+}
+
+.font-weight-light {
+  font-weight: $font-weight-light !important;
+}
+
+.font-weight-normal {
+  font-weight: $font-weight-normal !important;
+}
+
+.font-weight-medium {
+  font-weight: $font-weight-medium !important;
+}
+
+.font-weight-semibold {
+  font-weight: $font-weight-semibold !important;
+}
+
+.font-weight-bold {
+  font-weight: $font-weight-bold !important;
+}
+
+.font-weight-black {
+  font-weight: $font-weight-black !important;
+}
+
+// Cyberpunk text effects
+.text-glow {
+  @include neon-text-glow($cyberpunk-yellow);
+}
+
+.text-glow-blue {
+  @include neon-text-glow($cyberpunk-blue);
+}
+
+.text-glitch {
+  @include glitch-effect;
+}

@@ -1,0 +1,19 @@
+// Main SCSS file - Use order is important
+
+// 1. Abstracts - Variables, functions, mixins
+@use 'abstracts/variables' as *;
+@use 'abstracts/functions' as *;
+@use 'abstracts/mixins' as *;
+
+// 2. Base - Reset, typography, base styles
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/base';
+
+// 3. Components - UI component styles
+@use 'components/button';
+@use 'components/card';
+@use 'components/form';
+
+// 4. Sections - Page section styles
+@use '../components/sections/Home/Home';
