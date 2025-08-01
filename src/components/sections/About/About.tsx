@@ -3,7 +3,7 @@ import type { AboutProps } from '../../../types';
 import { TechnologyCard } from './TechnologyCard';
 import './About.scss';
 
-export const About: FC<AboutProps> = ({ content, technologies }) => {
+const About: FC<AboutProps> = ({ content, technologies }) => {
   // Group technologies by category
   const groupedTechnologies = technologies.reduce((acc, tech) => {
     if (!acc[tech.category]) {
@@ -59,3 +59,5 @@ export const About: FC<AboutProps> = ({ content, technologies }) => {
     </section>
   );
 };
+
+export default About;

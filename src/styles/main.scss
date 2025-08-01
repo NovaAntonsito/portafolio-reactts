@@ -9,11 +9,18 @@
 @use 'base/reset';
 @use 'base/typography';
 @use 'base/base';
+@use 'base/animations';
 
 // 3. Components - UI component styles
 @use 'components/button';
 @use 'components/card';
 @use 'components/form';
 
+// Error handling and loading components
+@use '../components/common/ErrorBoundary/ErrorBoundary';
+@use '../components/ui/Loading/Loading';
+@use '../components/ui/ErrorMessage/ErrorMessage';
+
 // 4. Sections - Page section styles
 @use '../components/sections/Home/Home';
+@use '../components/sections/Music/Music';

@@ -1,0 +1,335 @@
+@use '../../../styles/abstracts/variables' as v;
+@use '../../../styles/abstracts/mixins' as m;
+
+.error-message {
+  position: relative;
+  background: rgba(v.$cyberpunk-dark-gray, 0.9);
+  border: 1px solid v.$cyberpunk-red;
+  border-radius: 4px;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, v.$cyberpunk-red, transparent);
+    animation: error-scan 2s ease-in-out infinite;
+  }
+
+  // Variants
+  &--inline {
+    margin: 1rem 0;
+  }
+
+  &--toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 
+      0 4px 20px rgba(v.$cyberpunk-red, 0.3),
+      0 0 20px rgba(v.$cyberpunk-red, 0.1);
+    animation: toast-slide-in 0.3s ease-out;
+
+    @include m.mobile {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      max-width: none;
+    }
+  }
+
+  &--modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 90%;
+    z-index: 9999;
+    box-shadow: 
+      0 10px 40px rgba(v.$cyberpunk-red, 0.4),
+      0 0 30px rgba(v.$cyberpunk-red, 0.2);
+    
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(v.$cyberpunk-black, 0.8);
+      z-index: -1;
+      backdrop-filter: blur(5px);
+    }
+  }
+
+  // Sizes
+  &--small {
+    .error-message__container {
+      padding: 0.75rem;
+    }
+    
+    .error-message__text {
+      font-size: 0.85rem;
+    }
+    
+    .error-message__icon-symbol {
+      font-size: 1.2rem;
+    }
+  }
+
+  &--medium {
+    .error-message__container {
+      padding: 1rem;
+    }
+    
+    .error-message__text {
+      font-size: 0.95rem;
+    }
+    
+    .error-message__icon-symbol {
+      font-size: 1.5rem;
+    }
+  }
+
+  &--large {
+    .error-message__container {
+      padding: 1.5rem;
+    }
+    
+    .error-message__text {
+      font-size: 1.1rem;
+    }
+    
+    .error-message__icon-symbol {
+      font-size: 2rem;
+    }
+  }
+
+  &__container {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(v.$cyberpunk-red, 0.1);
+    border: 1px solid v.$cyberpunk-red;
+    border-radius: 50%;
+    
+    .error-message--small & {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .error-message--large & {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__icon-symbol {
+    color: v.$cyberpunk-red;
+    text-shadow: 0 0 10px rgba(v.$cyberpunk-red, 0.5);
+    animation: error-pulse 2s ease-in-out infinite;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__text {
+    font-family: v.$font-secondary;
+    color: v.$cyberpunk-light-gray;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+    
+    .error-message__actions:empty + & {
+      margin-bottom: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__button {
+    position: relative;
+    background: transparent;
+    border: 1px solid v.$cyberpunk-red;
+    color: v.$cyberpunk-red;
+    font-family: v.$font-secondary;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border-radius: 2px;
+
+    &:hover {
+      color: v.$cyberpunk-black;
+      text-shadow: none;
+      
+      .error-message__button-glow {
+        opacity: 1;
+        left: 0;
+      }
+    }
+
+    &--dismiss {
+      border-color: v.$cyberpunk-gray;
+      color: v.$cyberpunk-light-gray;
+      
+      &:hover {
+        border-color: v.$cyberpunk-red;
+        color: v.$cyberpunk-black;
+      }
+    }
+  }
+
+  &__button-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__button-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, v.$cyberpunk-red, transparent);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: v.$cyberpunk-light-gray;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: v.$cyberpunk-red;
+      text-shadow: 0 0 5px rgba(v.$cyberpunk-red, 0.5);
+    }
+  }
+
+  &__effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__glitch-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: v.$cyberpunk-red;
+    opacity: 0;
+    animation: glitch-line 3s ease-in-out infinite;
+  }
+
+  &__scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(v.$cyberpunk-red, 0.05) 2px,
+      rgba(v.$cyberpunk-red, 0.05) 4px
+    );
+    animation: scan-lines 1s linear infinite;
+  }
+}
+
+// Animations
+@keyframes error-scan {
+  0%, 100% { 
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% { 
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes error-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes toast-slide-in {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes glitch-line {
+  0%, 90%, 100% { 
+    opacity: 0;
+    transform: translateX(0) scaleX(1);
+  }
+  91%, 94% { 
+    opacity: 1;
+    transform: translateX(-10px) scaleX(1.1);
+  }
+  92%, 93% { 
+    opacity: 0.8;
+    transform: translateX(10px) scaleX(0.9);
+  }
+}
+
+@keyframes scan-lines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}

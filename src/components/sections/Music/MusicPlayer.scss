@@ -1,0 +1,583 @@
+@use '../../../styles/abstracts' as *;
+
+.music-player {
+  @include cyberpunk-card;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  @include entrance-animation(scale-in, 1s, 0.3s);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: linear-gradient(45deg,
+        $cyberpunk-yellow 0%,
+        $cyberpunk-blue 25%,
+        $cyberpunk-purple 50%,
+        $cyberpunk-red 75%,
+        $cyberpunk-yellow 100%);
+    z-index: -1;
+    border-radius: 8px;
+    opacity: 0.3;
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  &__connection {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__spotify-icon {
+    font-size: 1.5rem;
+    color: #1db954; // Spotify green
+  }
+
+  &__status {
+    font-family: $font-secondary;
+    font-weight: 500;
+
+    &.connected {
+      color: #1db954;
+    }
+
+    &.disconnected {
+      color: $cyberpunk-red;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &__track-info {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba($cyberpunk-yellow, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba($cyberpunk-yellow, 0.2);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba($cyberpunk-yellow, 0.1),
+          transparent);
+      animation: scan-line 2s linear infinite;
+    }
+  }
+
+  &__track-name {
+    font-family: $font-primary;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $cyberpunk-yellow;
+    margin-bottom: 0.5rem;
+    @include neon-text-glow($cyberpunk-yellow, 0.6);
+    animation: neon-flicker 4s ease-in-out infinite;
+  }
+
+  &__track-artist {
+    font-family: $font-secondary;
+    font-size: 1.1rem;
+    color: $cyberpunk-light-gray;
+    margin-bottom: 0.5rem;
+  }
+
+  &__track-duration {
+    font-family: $font-secondary;
+    font-size: 0.9rem;
+    color: $cyberpunk-gray;
+  }
+
+  &__no-track {
+    p {
+      font-family: $font-secondary;
+      color: $cyberpunk-light-gray;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__playlist-info {
+    font-size: 0.9rem;
+    color: $cyberpunk-yellow;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__control-btn {
+    background: transparent;
+    border: 2px solid $cyberpunk-yellow;
+    color: $cyberpunk-yellow;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    @include flex-center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba($cyberpunk-yellow, 0.3) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    &:hover:not(:disabled) {
+      background: $cyberpunk-yellow;
+      color: $cyberpunk-black;
+      @include neon-glow($cyberpunk-yellow, 0.8);
+      transform: scale(1.05);
+
+      &::before {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: $cyberpunk-gray;
+      color: $cyberpunk-gray;
+    }
+
+    &--play-pause {
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+      border-width: 3px;
+
+      &.playing {
+        background: $cyberpunk-yellow;
+        color: $cyberpunk-black;
+        @include neon-glow($cyberpunk-yellow, 1);
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+    }
+  }
+
+  &__playlist {
+    border-top: 1px solid $cyberpunk-gray;
+    padding-top: 2rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+          transparent,
+          $cyberpunk-yellow,
+          transparent);
+    }
+  }
+
+  &__playlist-title {
+    font-family: $font-primary;
+    font-size: 1.2rem;
+    color: $cyberpunk-yellow;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    @include neon-text-glow($cyberpunk-yellow, 0.4);
+  }
+
+  &__track-list {
+    max-height: 300px;
+    overflow-y: auto;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba($cyberpunk-gray, 0.3);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $cyberpunk-yellow;
+      border-radius: 3px;
+      box-shadow: 0 0 5px rgba($cyberpunk-yellow, 0.5);
+
+      &:hover {
+        background: $cyberpunk-yellow-light;
+        box-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.8);
+      }
+    }
+  }
+
+  &__track-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba($cyberpunk-yellow, 0.1);
+      border-color: rgba($cyberpunk-yellow, 0.2);
+      transform: translateX(5px);
+
+      &::before {
+        background: $cyberpunk-yellow;
+        box-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+      }
+    }
+
+    &.active {
+      background: rgba($cyberpunk-yellow, 0.15);
+      border-color: rgba($cyberpunk-yellow, 0.4);
+      @include neon-glow($cyberpunk-yellow, 0.3);
+
+      &::before {
+        background: $cyberpunk-yellow;
+        box-shadow: 0 0 15px rgba($cyberpunk-yellow, 0.8);
+      }
+    }
+  }
+
+  &__track-number {
+    font-family: $font-secondary;
+    font-weight: 600;
+    color: $cyberpunk-light-gray;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  &__track-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__track-item-name {
+    font-family: $font-secondary;
+    font-weight: 500;
+    color: $cyberpunk-white;
+  }
+
+  &__track-item-artist {
+    font-family: $font-secondary;
+    font-size: 0.9rem;
+    color: $cyberpunk-light-gray;
+  }
+
+  &__track-item-duration {
+    font-family: $font-secondary;
+    font-size: 0.9rem;
+    color: $cyberpunk-gray;
+    min-width: 3rem;
+    text-align: right;
+  }
+
+  &__disconnected-state {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid $cyberpunk-gray;
+    margin-top: 2rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, $cyberpunk-red, transparent);
+      box-shadow: 0 0 10px rgba($cyberpunk-red, 0.5);
+    }
+
+    p {
+      font-family: $font-secondary;
+      color: $cyberpunk-light-gray;
+      margin-bottom: 1rem;
+      @include neon-text-glow($cyberpunk-red, 0.3);
+    }
+  }
+
+  &__connect-btn {
+    @include cyberpunk-button($cyberpunk-red, $cyberpunk-white);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba($cyberpunk-white, 0.2),
+          transparent);
+      transition: left 0.5s ease;
+    }
+
+    &:hover:not(:disabled) {
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &:hover {
+        background: transparent;
+        color: $cyberpunk-red;
+        box-shadow: none;
+      }
+    }
+  }
+
+  @include tablet {
+    padding: 1.5rem;
+
+    &__main {
+      gap: 1.5rem;
+    }
+
+    &__track-info {
+      padding: 1rem;
+    }
+
+    &__track-name {
+      font-size: 1.3rem;
+    }
+
+    &__control-btn {
+      width: 45px;
+      height: 45px;
+      font-size: 1.1rem;
+
+      &--play-pause {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  @include mobile {
+    padding: 1rem;
+
+    &__main {
+      gap: 1rem;
+    }
+
+    &__track-info {
+      padding: 0.75rem;
+    }
+
+    &__track-name {
+      font-size: 1.2rem;
+    }
+
+    &__controls {
+      gap: 0.75rem;
+    }
+
+    &__control-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+
+      &--play-pause {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+
+    &__track-item {
+      padding: 0.5rem;
+      gap: 0.75rem;
+    }
+
+    &__track-details {
+      gap: 0.125rem;
+    }
+
+    &__track-item-name {
+      font-size: 0.9rem;
+    }
+
+    &__track-item-artist {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Additional animations for music player
+@keyframes scan-line {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes loading-dots {
+
+  0%,
+  20% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes equalizer-bar {
+
+  0%,
+  100% {
+    height: 20%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+// Loading indicator styles
+.loading-indicator {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+
+  &__dot {
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: loading-dots 1.4s ease-in-out infinite both;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0s;
+    }
+  }
+}
+
+// Equalizer bars styles
+.equalizer {
+  display: flex;
+  gap: 2px;
+  align-items: end;
+  height: 20px;
+  margin-left: 10px;
+
+  &__bar {
+    width: 3px;
+    background: $cyberpunk-yellow;
+    border-radius: 1px;
+    animation: equalizer-bar 1s ease-in-out infinite;
+
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+  }
+}
+
+// Track header layout
+.music-player__track-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}

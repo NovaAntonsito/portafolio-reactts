@@ -41,12 +41,20 @@
   &__container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 $spacing-lg;
+    padding: 0 $spacing-md;
     position: relative;
     z-index: 1;
     
+    @include mobile-up {
+      padding: 0 $spacing-lg;
+    }
+    
     @include tablet-up {
       padding: 0 $spacing-xl;
+    }
+    
+    @include desktop-up {
+      padding: 0 $spacing-lg;
     }
   }
   
@@ -57,27 +65,49 @@
   
   &__title {
     font-family: $font-primary;
-    font-size: $font-size-4xl;
+    font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
     color: $cyberpunk-yellow;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin: 0;
     @include neon-text-glow($cyberpunk-yellow, 0.8);
     animation: pulse-glow 2s ease-in-out infinite alternate;
     
+    @include mobile-up {
+      font-size: $font-size-3xl;
+      letter-spacing: 1.5px;
+    }
+    
     @include tablet-up {
+      font-size: $font-size-4xl;
+      letter-spacing: 2px;
+    }
+    
+    @include desktop-up {
+      font-size: $font-size-4xl;
+    }
+    
+    @include large-desktop-up {
       font-size: $font-size-5xl;
     }
   }
   
   &__content {
     display: grid;
-    gap: $spacing-3xl;
+    gap: $spacing-2xl;
+    
+    @include tablet-up {
+      gap: $spacing-3xl;
+    }
     
     @include desktop-up {
       grid-template-columns: 1fr 2fr;
       gap: $spacing-3xl;
+    }
+    
+    @include large-desktop-up {
+      gap: $spacing-3xl * 1.2;
     }
   }
   
@@ -154,12 +184,18 @@
   &__tech-list {
     display: grid;
     gap: $spacing-md;
+    grid-template-columns: 1fr;
     
     @include mobile-up {
       grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-lg;
     }
     
     @include tablet-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop-up {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -186,7 +222,6 @@
     
     .tech-card__bar--active {
       @include neon-glow($cyberpunk-yellow, 0.3);
-      animation: pulse-glow 1s ease-in-out infinite alternate;
     }
   }
   
@@ -229,20 +264,6 @@
     &--active {
       background: $cyberpunk-yellow;
       box-shadow: 0 0 3px rgba($cyberpunk-yellow, 0.6);
-      
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, 
-          transparent 0%, 
-          rgba($cyberpunk-yellow, 0.8) 50%, 
-          transparent 100%);
-        animation: shimmer 2s ease-in-out infinite;
-      }
     }
   }
   
@@ -257,25 +278,25 @@
     }
   }
 }
-// En
-trance Animations
+// Entrance Animations
 .about {
-  animation: fadeInUp 1s ease-out;
+  @include entrance-animation(fade-in-up, 1s, 0s);
   
   &__title {
-    animation: fadeInUp 1s ease-out 0.2s both, pulse-glow 2s ease-in-out infinite alternate 1.2s;
+    @include entrance-animation(fade-in-down, 1s, 0.2s);
+    animation: fade-in-down 1s ease-out 0.2s both, neon-pulse 3s ease-in-out infinite 1.2s;
   }
   
   &__description {
-    animation: fadeInUp 1s ease-out 0.4s both;
+    @include entrance-animation(fade-in-up, 1s, 0.4s);
   }
   
   &__technologies-title {
-    animation: fadeInUp 1s ease-out 0.6s both;
+    @include entrance-animation(fade-in-left, 1s, 0.6s);
   }
   
   &__tech-category {
-    animation: fadeInUp 1s ease-out both;
+    @include entrance-animation(fade-in-up, 1s);
     
     &:nth-child(1) { animation-delay: 0.8s; }
     &:nth-child(2) { animation-delay: 1s; }
@@ -285,7 +306,29 @@ trance Animations
 }
 
 .tech-card {
-  animation: fadeInScale 0.6s ease-out both;
+  @include entrance-animation(scale-in, 0.6s);
+  position: relative;
+  
+  // Add scanning line effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      $cyberpunk-yellow 50%, 
+      transparent 100%);
+    opacity: 0;
+    transition: opacity $transition-base;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+    animation: data-stream 1s ease-in-out infinite;
+  }
   
   &:nth-child(1) { animation-delay: 0.1s; }
   &:nth-child(2) { animation-delay: 0.2s; }
@@ -319,10 +362,7 @@ trance Animations
   }
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
+
 
 @keyframes pulse-text {
   0%, 100% { 
@@ -342,4 +382,38 @@ trance Animations
 @keyframes grid-move {
   0% { transform: translate(0, 0); }
   100% { transform: translate(50px, 50px); }
+}
+
+// Touch device optimizations
+@include touch-device {
+  .about {
+    // Reduce animations on touch devices for better performance
+    &::after {
+      animation: none;
+    }
+  }
+  
+  .tech-card {
+    // Remove hover effects on touch devices
+    &:hover {
+      transform: translateY(0);
+      border-color: rgba($cyberpunk-yellow, 0.3);
+      box-shadow: none;
+      
+      .tech-card__name {
+        color: $cyberpunk-white;
+        text-shadow: none;
+      }
+      
+      .tech-card__bar--active {
+        box-shadow: 0 0 3px rgba($cyberpunk-yellow, 0.6);
+      }
+    }
+    
+    // Add touch feedback
+    &:active {
+      transform: scale(0.98);
+      background: rgba($cyberpunk-dark-gray, 0.95);
+    }
+  }
 }

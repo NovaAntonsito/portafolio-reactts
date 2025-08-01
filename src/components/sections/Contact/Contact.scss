@@ -1,0 +1,298 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+
+.contact {
+  min-height: 100vh;
+  padding: 4rem 0;
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba($cyberpunk-black, 0.95) 0%, 
+    rgba($cyberpunk-dark-gray, 0.9) 50%, 
+    rgba($cyberpunk-black, 0.95) 100%
+  );
+  overflow: hidden;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+    
+    @include mobile-up {
+      padding: 0 1.5rem;
+    }
+    
+    @include tablet-up {
+      padding: 0 2rem;
+    }
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  &__title {
+    font-family: $font-primary;
+    font-size: 2rem;
+    font-weight: 900;
+    color: $cyberpunk-yellow;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba($cyberpunk-yellow, 0.5);
+    
+    @include mobile-up {
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
+    }
+    
+    @include tablet-up {
+      font-size: 3rem;
+      letter-spacing: 2px;
+    }
+    
+    @include desktop-up {
+      font-size: 3.5rem;
+    }
+    
+    &::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        $cyberpunk-yellow 50%, 
+        transparent 100%
+      );
+      margin: 1rem auto;
+      
+      @include mobile-up {
+        width: 80px;
+        height: 3px;
+      }
+      
+      @include tablet-up {
+        width: 100px;
+      }
+    }
+  }
+
+  &__subtitle {
+    font-family: $font-secondary;
+    font-size: 1.3rem;
+    color: $cyberpunk-light-gray;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+    
+    @include mobile-up {
+      gap: 3rem;
+    }
+    
+    @include tablet-up {
+      gap: 3rem;
+    }
+    
+    @include desktop-up {
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  &__form-section {
+    position: relative;
+  }
+
+  &__social-section {
+    position: relative;
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba($cyberpunk-yellow, 0.2);
+  }
+
+  &__footer-text {
+    font-family: $font-secondary;
+    font-size: 1.1rem;
+    color: $cyberpunk-light-gray;
+    margin: 0;
+    font-style: italic;
+  }
+
+  // Background effects
+  &__bg-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__bg-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba($cyberpunk-yellow, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($cyberpunk-yellow, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  &__bg-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.1;
+
+    &--top {
+      top: 10%;
+      right: 10%;
+      background: radial-gradient(circle, $cyberpunk-yellow 0%, transparent 70%);
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+
+    &--bottom {
+      bottom: 10%;
+      left: 10%;
+      background: radial-gradient(circle, $cyberpunk-blue 0%, transparent 70%);
+      animation: glowPulse 4s ease-in-out infinite reverse;
+    }
+  }
+
+  // Mobile-first responsive design
+  @include mobile-only {
+    padding: 2rem 0;
+
+    &__header {
+      margin-bottom: 2rem;
+    }
+
+    &__subtitle {
+      font-size: 1rem;
+    }
+
+    &__footer {
+      margin-top: 2rem;
+    }
+
+    &__footer-text {
+      font-size: 1rem;
+    }
+
+    &__bg-glow {
+      width: 150px;
+      height: 150px;
+      filter: blur(60px);
+    }
+  }
+
+  @include mobile {
+    padding: 2.5rem 0;
+
+    &__header {
+      margin-bottom: 2.5rem;
+    }
+
+    &__subtitle {
+      font-size: 1.1rem;
+    }
+
+    &__footer {
+      margin-top: 2.5rem;
+    }
+
+    &__bg-glow {
+      width: 200px;
+      height: 200px;
+      filter: blur(80px);
+    }
+  }
+
+  @include tablet-up {
+    padding: 3rem 0;
+
+    &__header {
+      margin-bottom: 3rem;
+    }
+
+    &__subtitle {
+      font-size: 1.2rem;
+    }
+
+    &__footer {
+      margin-top: 3rem;
+    }
+  }
+
+  @include desktop-up {
+    padding: 4rem 0;
+
+    &__header {
+      margin-bottom: 4rem;
+    }
+
+    &__subtitle {
+      font-size: 1.3rem;
+    }
+
+    &__footer {
+      margin-top: 4rem;
+    }
+  }
+}
+
+// Animations
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.1);
+  }
+}
+
+// Touch device optimizations
+@include touch-device {
+  .contact {
+    // Reduce background animations for better performance
+    &__bg-grid {
+      animation: none;
+    }
+    
+    &__bg-glow {
+      animation: none;
+      opacity: 0.05;
+    }
+  }
+}

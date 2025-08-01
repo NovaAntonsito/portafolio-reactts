@@ -7,6 +7,9 @@
   color: $cyberpunk-white;
   position: relative;
   overflow-x: hidden;
+  
+  // Smooth scrolling for the entire layout
+  scroll-behavior: smooth;
 
   &::before {
     content: '';
@@ -25,13 +28,47 @@
   &__container {
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 100vw;
+  }
+}
+
+// Mobile-first responsive design
+@include mobile-only {
+  .layout {
+    &__container {
+      padding: 0;
+    }
   }
 }
 
 @include mobile {
   .layout {
+    // Prevent horizontal scroll on mobile
+    overflow-x: hidden;
+    
     &__container {
-      padding: 0 1rem;
+      padding: 0;
+      overflow-x: hidden;
     }
+  }
+}
+
+@include tablet-up {
+  .layout {
+    &__container {
+      padding: 0;
+    }
+  }
+}
+
+// Touch device optimizations
+@include touch-device {
+  .layout {
+    // Improve touch scrolling performance
+    -webkit-overflow-scrolling: touch;
+    
+    // Prevent zoom on double tap
+    touch-action: manipulation;
   }
 }

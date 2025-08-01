@@ -1,0 +1,213 @@
+@use '../abstracts/variables' as *;
+
+// Global smooth scrolling
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; // Account for fixed navigation
+}
+
+// Reduce motion for users who prefer it
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+// Global entrance animations for sections
+.section-enter {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.section-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Staggered animation delays for child elements
+.stagger-children {
+  > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fade-in-up 0.6s ease-out both;
+    
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.4s; }
+    &:nth-child(5) { animation-delay: 0.5s; }
+    &:nth-child(6) { animation-delay: 0.6s; }
+    &:nth-child(7) { animation-delay: 0.7s; }
+    &:nth-child(8) { animation-delay: 0.8s; }
+    &:nth-child(9) { animation-delay: 0.9s; }
+    &:nth-child(10) { animation-delay: 1s; }
+  }
+}
+
+// Loading animation
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba($cyberpunk-yellow, 0.3);
+  border-top: 3px solid $cyberpunk-yellow;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba($cyberpunk-yellow, 0.5);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Cyberpunk loading bars
+.loading-bars {
+  display: flex;
+  gap: 4px;
+  align-items: end;
+  
+  .bar {
+    width: 4px;
+    height: 20px;
+    background: $cyberpunk-yellow;
+    border-radius: 2px;
+    animation: loading-bar 1.2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+    
+    &:nth-child(1) { animation-delay: 0s; }
+    &:nth-child(2) { animation-delay: 0.1s; }
+    &:nth-child(3) { animation-delay: 0.2s; }
+    &:nth-child(4) { animation-delay: 0.3s; }
+    &:nth-child(5) { animation-delay: 0.4s; }
+  }
+}
+
+@keyframes loading-bar {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+// Cyberpunk text reveal animation
+.text-reveal {
+  overflow: hidden;
+  
+  .text-reveal-inner {
+    display: inline-block;
+    transform: translateY(100%);
+    animation: text-reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+}
+
+@keyframes text-reveal {
+  to {
+    transform: translateY(0);
+  }
+}
+
+// Holographic effect
+.holographic {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba($cyberpunk-blue, 0.1) 50%,
+      transparent 70%
+    );
+    animation: hologram-sweep 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes hologram-sweep {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+
+// Cyberpunk button press effect
+.cyber-button-press {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba($cyberpunk-yellow, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+  
+  &:active::after {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+// Glitch text effect
+.glitch-text {
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  &::before {
+    color: $cyberpunk-red;
+    animation: glitch-1 0.3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+  
+  &::after {
+    color: $cyberpunk-blue;
+    animation: glitch-2 0.3s infinite;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+  
+  &:hover {
+    &::before,
+    &::after {
+      animation-duration: 0.1s;
+    }
+  }
+}

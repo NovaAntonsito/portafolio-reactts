@@ -1,0 +1,102 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba($cyberpunk-dark-gray, 0.6);
+  border: 1px solid rgba($cyberpunk-yellow, 0.3);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  @include entrance-animation(fade-in-up, 0.8s, 0.2s);
+
+  &__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-family: $font-primary;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $cyberpunk-yellow;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__subtitle {
+    font-family: $font-secondary;
+    font-size: 1.1rem;
+    color: $cyberpunk-light-gray;
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  // Success state
+  &--success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+  }
+
+  &__success-message {
+    h3 {
+      font-family: $font-primary;
+      font-size: 1.8rem;
+      color: $cyberpunk-yellow;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-family: $font-secondary;
+      font-size: 1.1rem;
+      color: $cyberpunk-light-gray;
+      margin: 0;
+    }
+  }
+
+  // Responsive design
+  @include tablet {
+    padding: 1.5rem;
+
+    &__title {
+      font-size: 1.8rem;
+    }
+
+    &__subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  @include mobile {
+    padding: 1rem;
+    margin: 0 1rem;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__subtitle {
+      font-size: 0.9rem;
+    }
+
+    &__header {
+      margin-bottom: 1.5rem;
+    }
+  }
+}

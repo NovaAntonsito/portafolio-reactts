@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { NavigationProps } from '../../../types';
+import UNSCLogo from '../../../assets/UNSC Logo.svg';
 import './Navigation.scss';
 
 const Navigation: React.FC<NavigationProps> = ({ 
@@ -17,34 +18,77 @@ const Navigation: React.FC<NavigationProps> = ({
     { id: 'contact', label: 'Contacto' }
   ];
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        onMobileMenuToggle?.();
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const nav = document.querySelector('.navigation');
+      if (isMenuOpen && nav && !nav.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+        onMobileMenuToggle?.();
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.addEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('click', handleClickOutside);
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen, onMobileMenuToggle]);
+
   const handleSectionClick = (sectionId: string) => {
     onSectionChange(sectionId);
     setIsMenuOpen(false);
+    onMobileMenuToggle?.();
     
-    // Smooth scroll to section
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+      const navHeight = 80;
+      const elementPosition = element.offsetTop - navHeight;
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
       });
     }
   };
 
   const toggleMobileMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    const newState = !isMenuOpen;
+    setIsMenuOpen(newState);
     onMobileMenuToggle?.();
   };
 
   return (
     <nav className="navigation">
       <div className="navigation__container">
-        {/* Logo/Brand */}
         <div className="navigation__brand">
-          <span className="navigation__logo">MA</span>
+          <button 
+            className="navigation__logo-button"
+            onClick={() => handleSectionClick('home')}
+            aria-label="Ir al inicio"
+          >
+            <img 
+              src={UNSCLogo} 
+              alt="UNSC Logo" 
+              className="navigation__logo"
+            />
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
         <button 
           className={`navigation__mobile-toggle ${isMenuOpen ? 'navigation__mobile-toggle--active' : ''}`}
           onClick={toggleMobileMenu}
@@ -54,8 +98,6 @@ const Navigation: React.FC<NavigationProps> = ({
           <span></span>
           <span></span>
         </button>
-
-        {/* Navigation Menu */}
         <ul className={`navigation__menu ${isMenuOpen ? 'navigation__menu--open' : ''}`}>
           {sections.map((section) => (
             <li key={section.id} className="navigation__item">

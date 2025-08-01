@@ -5,7 +5,7 @@ export const useActiveSection = (sections: string[] = ['home', 'about', 'music',
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100; // Offset for navigation height
+      const scrollPosition = window.scrollY + 100;
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
@@ -20,16 +20,12 @@ export const useActiveSection = (sections: string[] = ['home', 'about', 'music',
       }
     };
 
-    // Set initial active section based on hash
     const hash = window.location.hash.replace('#', '');
     if (hash && sections.includes(hash)) {
       setActiveSection(hash);
     }
 
-    // Add scroll listener
     window.addEventListener('scroll', handleScroll);
-    
-    // Initial check
     handleScroll();
 
     return () => {
@@ -40,16 +36,26 @@ export const useActiveSection = (sections: string[] = ['home', 'about', 'music',
   const navigateToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     
-    // Update URL hash without triggering page reload
     window.history.pushState(null, '', `#${sectionId}`);
     
-    // Scroll to section
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+      const navHeight = 80;
+      const elementPosition = element.offsetTop - navHeight;
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
       });
+      
+      element.classList.add('section-enter');
+      setTimeout(() => {
+        element.classList.add('section-enter-active');
+      }, 50);
+      
+      setTimeout(() => {
+        element.classList.remove('section-enter', 'section-enter-active');
+      }, 1000);
     }
   };
 

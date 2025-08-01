@@ -1,11 +1,8 @@
-// Component prop interfaces
-
 import type { ReactNode } from 'react';
 import type { Technology, SocialLink } from './user';
 import type { SpotifyPlaylist, Track } from './music';
 import type { ContactForm } from './contact';
 
-// Layout Components
 export interface LayoutProps {
   children: ReactNode;
 }
@@ -17,7 +14,6 @@ export interface NavigationProps {
   onMobileMenuToggle?: () => void;
 }
 
-// Section Components
 export interface HomeProps {
   profileImage?: string;
   description: string;
@@ -46,7 +42,6 @@ export interface ContactProps {
   onFormSubmit?: (formData: ContactForm) => void;
 }
 
-// UI Components
 export interface ButtonProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';

@@ -1,51 +1,83 @@
 // Use variables
-@use 'variables' as *;
+@use 'variables' as v;
 
-// Responsive Breakpoints
+// Responsive Breakpoints - Mobile First Approach
+@mixin mobile-only {
+  @media (max-width: #{v.$mobile - 1px}) {
+    @content;
+  }
+}
+
 @mixin mobile {
-  @media (max-width: #{$mobile - 1px}) {
+  @media (max-width: #{v.$tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: #{v.$mobile}) and (max-width: #{v.$tablet - 1px}) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media (min-width: #{$mobile}) and (max-width: #{$tablet - 1px}) {
+  @media (min-width: #{v.$tablet}) and (max-width: #{v.$desktop - 1px}) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media (min-width: #{$tablet}) {
+  @media (min-width: #{v.$desktop}) {
     @content;
   }
 }
 
 @mixin large-desktop {
-  @media (min-width: #{$desktop}) {
+  @media (min-width: #{v.$large-desktop}) {
     @content;
   }
 }
 
+// Mobile-first responsive mixins
 @mixin mobile-up {
-  @media (min-width: #{$mobile}) {
+  @media (min-width: #{v.$mobile}) {
     @content;
   }
 }
 
 @mixin tablet-up {
-  @media (min-width: #{$tablet}) {
+  @media (min-width: #{v.$tablet}) {
     @content;
   }
 }
 
 @mixin desktop-up {
-  @media (min-width: #{$desktop}) {
+  @media (min-width: #{v.$desktop}) {
+    @content;
+  }
+}
+
+@mixin large-desktop-up {
+  @media (min-width: #{v.$large-desktop}) {
+    @content;
+  }
+}
+
+// Touch device optimization
+@mixin touch-device {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin hover-device {
+  @media (hover: hover) and (pointer: fine) {
     @content;
   }
 }
 
 // Cyberpunk Effects
-@mixin neon-glow($color: $cyberpunk-yellow, $intensity: 1) {
+@mixin neon-glow($color: v.$cyberpunk-yellow, $intensity: 1) {
   box-shadow: 
     0 0 5px rgba($color, 0.5 * $intensity),
     0 0 10px rgba($color, 0.3 * $intensity),
@@ -53,7 +85,7 @@
     0 0 20px rgba($color, 0.1 * $intensity);
 }
 
-@mixin neon-text-glow($color: $cyberpunk-yellow, $intensity: 1) {
+@mixin neon-text-glow($color: v.$cyberpunk-yellow, $intensity: 1) {
   text-shadow: 
     0 0 5px rgba($color, 0.8 * $intensity),
     0 0 10px rgba($color, 0.6 * $intensity),
@@ -61,7 +93,7 @@
     0 0 20px rgba($color, 0.2 * $intensity);
 }
 
-@mixin cyberpunk-border($color: $cyberpunk-yellow, $width: 2px) {
+@mixin cyberpunk-border($color: v.$cyberpunk-yellow, $width: 2px) {
   border: $width solid $color;
   position: relative;
   
@@ -92,13 +124,13 @@
   
   &::before {
     animation: glitch-1 0.5s infinite;
-    color: $cyberpunk-red;
+    color: v.$cyberpunk-red;
     z-index: -1;
   }
   
   &::after {
     animation: glitch-2 0.5s infinite;
-    color: $cyberpunk-blue;
+    color: v.$cyberpunk-blue;
     z-index: -2;
   }
 }
@@ -128,17 +160,17 @@
 }
 
 // Button Mixins
-@mixin cyberpunk-button($bg-color: $cyberpunk-yellow, $text-color: $cyberpunk-black) {
+@mixin cyberpunk-button($bg-color: v.$cyberpunk-yellow, $text-color: v.$cyberpunk-black) {
   background: $bg-color;
   color: $text-color;
   border: 2px solid $bg-color;
-  padding: $spacing-sm $spacing-lg;
-  font-family: $font-primary;
-  font-weight: $font-weight-bold;
+  padding: v.$spacing-sm v.$spacing-lg;
+  font-family: v.$font-primary;
+  font-weight: v.$font-weight-bold;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: all $transition-base;
+  transition: all v.$transition-base;
   position: relative;
   overflow: hidden;
   
@@ -155,10 +187,10 @@
 
 // Card Mixins
 @mixin cyberpunk-card {
-  background: rgba($cyberpunk-dark-gray, 0.9);
-  border: 1px solid rgba($cyberpunk-yellow, 0.3);
-  border-radius: $border-radius-md;
-  padding: $spacing-lg;
+  background: rgba(v.$cyberpunk-dark-gray, 0.9);
+  border: 1px solid rgba(v.$cyberpunk-yellow, 0.3);
+  border-radius: v.$border-radius-md;
+  padding: v.$spacing-lg;
   position: relative;
   
   &::before {
@@ -169,15 +201,15 @@
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, 
-      rgba($cyberpunk-yellow, 0.1) 0%, 
+      rgba(v.$cyberpunk-yellow, 0.1) 0%, 
       transparent 50%, 
-      rgba($cyberpunk-blue, 0.1) 100%);
+      rgba(v.$cyberpunk-blue, 0.1) 100%);
     pointer-events: none;
   }
   
   &:hover {
-    border-color: rgba($cyberpunk-yellow, 0.6);
-    @include neon-glow($cyberpunk-yellow, 0.3);
+    border-color: rgba(v.$cyberpunk-yellow, 0.6);
+    @include neon-glow(v.$cyberpunk-yellow, 0.3);
   }
 }
 
@@ -205,9 +237,193 @@
 
 @keyframes pulse-glow {
   0%, 100% { 
-    box-shadow: 0 0 5px rgba($cyberpunk-yellow, 0.5);
+    box-shadow: 0 0 5px rgba(v.$cyberpunk-yellow, 0.5);
   }
   50% { 
-    box-shadow: 0 0 20px rgba($cyberpunk-yellow, 0.8);
+    box-shadow: 0 0 20px rgba(v.$cyberpunk-yellow, 0.8);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+  }
+  50% {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor,
+      0 0 40px currentColor;
+  }
+}
+
+@keyframes cyber-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes hologram-flicker {
+  0%, 100% { 
+    opacity: 1; 
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    opacity: 0.8; 
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    opacity: 0.9; 
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    opacity: 0.7; 
+    filter: hue-rotate(270deg);
+  }
+}
+
+@keyframes data-stream {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+// Animation Mixins
+@mixin entrance-animation($animation: fade-in-up, $duration: 0.8s, $delay: 0s) {
+  opacity: 0;
+  animation: $animation $duration ease-out $delay both;
+}
+
+@mixin hover-glow($color: v.$cyberpunk-yellow, $intensity: 1) {
+  transition: all v.$transition-base;
+  
+  &:hover {
+    @include neon-glow($color, $intensity);
+    transform: translateY(-2px);
+  }
+}
+
+@mixin cyber-border-animation($color: v.$cyberpunk-yellow) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, $color, transparent, $color) 1;
+    animation: border-rotate 2s linear infinite;
+  }
+}
+
+@keyframes border-rotate {
+  0% {
+    border-image-source: linear-gradient(0deg, var(--color), transparent, var(--color));
+  }
+  25% {
+    border-image-source: linear-gradient(90deg, var(--color), transparent, var(--color));
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, var(--color), transparent, var(--color));
+  }
+  75% {
+    border-image-source: linear-gradient(270deg, var(--color), transparent, var(--color));
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, var(--color), transparent, var(--color));
   }
 }
