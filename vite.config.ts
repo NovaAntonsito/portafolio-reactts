@@ -31,9 +31,15 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
   },
   server: {
+    host: '0.0.0.0', // Importante para VPS
+    port: parseInt(process.env.PORT) || 4173, // Usar variable de entorno o puerto por defecto
     hmr: {
       overlay: false,
     },
+  },
+  preview: {
+    host: '0.0.0.0', // Para preview builds
+    port: parseInt(process.env.PORT) || 4173,
   },
   css: {
     devSourcemap: true,
