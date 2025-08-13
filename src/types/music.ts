@@ -4,8 +4,9 @@ export interface Track {
   id: string;
   name: string;
   artist: string;
-  duration: number;
-  preview_url?: string;
+  album: string;
+  previewUrl?: string;
+  spotifyUrl: string;
 }
 
 export interface SpotifyPlaylist {

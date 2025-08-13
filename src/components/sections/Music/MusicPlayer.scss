@@ -30,6 +30,7 @@
   &__header {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
   }
 
@@ -41,7 +42,7 @@
 
   &__spotify-icon {
     font-size: 1.5rem;
-    color: #1db954; // Spotify green
+    color: #1db954;
   }
 
   &__status {
@@ -54,6 +55,123 @@
 
     &.disconnected {
       color: $cyberpunk-red;
+    }
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem;
+
+    h3 {
+      color: $cyberpunk-yellow;
+      font-family: $font-primary;
+      font-size: 1.5rem;
+      margin: 0;
+      text-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+    }
+
+    p {
+      color: $cyberpunk-light-gray;
+      font-family: $font-secondary;
+      margin: 0;
+      text-align: center;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+  }
+
+  &__progress-container {
+    width: 100%;
+    height: 6px;
+    background: rgba($cyberpunk-gray, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 1rem 0;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba($cyberpunk-yellow, 0.3),
+          transparent);
+      animation: loading-shimmer 2s infinite;
+    }
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg,
+        $cyberpunk-yellow,
+        $cyberpunk-blue,
+        $cyberpunk-yellow);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba($cyberpunk-yellow, 0.5);
+  }
+
+  &__progress-text {
+    font-family: $font-secondary;
+    color: $cyberpunk-yellow;
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem;
+    text-align: center;
+
+    h3 {
+      color: $cyberpunk-red;
+      font-family: $font-primary;
+      font-size: 1.5rem;
+      margin: 0;
+      text-shadow: 0 0 10px rgba($cyberpunk-red, 0.5);
+    }
+
+    p {
+      color: $cyberpunk-light-gray;
+      font-family: $font-secondary;
+      margin: 0;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+  }
+
+  &__error-icon {
+    font-size: 3rem;
+    animation: error-pulse 2s ease-in-out infinite;
+  }
+
+  &__retry-btn {
+    background: transparent;
+    border: 2px solid $cyberpunk-red;
+    color: $cyberpunk-red;
+    padding: 0.75rem 1.5rem;
+    font-family: $font-secondary;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+
+    &:hover {
+      background: $cyberpunk-red;
+      color: $cyberpunk-black;
+      box-shadow: 0 0 15px rgba($cyberpunk-red, 0.5);
     }
   }
 
@@ -88,6 +206,13 @@
     }
   }
 
+  &__track-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
   &__track-name {
     font-family: $font-primary;
     font-size: 1.5rem;
@@ -105,10 +230,65 @@
     margin-bottom: 0.5rem;
   }
 
-  &__track-duration {
+  &__track-album {
     font-family: $font-secondary;
-    font-size: 0.9rem;
     color: $cyberpunk-gray;
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+  }
+
+  &__spotify-link {
+    color: $cyberpunk-yellow;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #1db954;
+    }
+  }
+
+  &__progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  &__time {
+    font-family: $font-secondary;
+    color: $cyberpunk-light-gray;
+    font-size: 0.8rem;
+    min-width: 35px;
+  }
+
+  &__progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba($cyberpunk-gray, 0.3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: $cyberpunk-yellow;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba($cyberpunk-yellow, 0.5);
+    }
+
+    &::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: $cyberpunk-yellow;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 5px rgba($cyberpunk-yellow, 0.5);
+    }
   }
 
   &__no-track {
@@ -196,6 +376,46 @@
     }
   }
 
+  &__volume {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    justify-content: center;
+  }
+
+  &__volume-icon {
+    color: $cyberpunk-light-gray;
+    font-size: 1rem;
+  }
+
+  &__volume-slider {
+    width: 100px;
+    height: 4px;
+    background: rgba($cyberpunk-gray, 0.3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: $cyberpunk-blue;
+      cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: $cyberpunk-blue;
+      cursor: pointer;
+      border: none;
+    }
+  }
+
   &__playlist {
     border-top: 1px solid $cyberpunk-gray;
     padding-top: 2rem;
@@ -230,7 +450,6 @@
     max-height: 300px;
     overflow-y: auto;
 
-    // Custom scrollbar
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -274,7 +493,12 @@
       transition: all 0.3s ease;
     }
 
-    &:hover {
+    &.no-preview {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(.no-preview) {
       background: rgba($cyberpunk-yellow, 0.1);
       border-color: rgba($cyberpunk-yellow, 0.2);
       transform: translateX(5px);
@@ -324,76 +548,33 @@
     color: $cyberpunk-light-gray;
   }
 
-  &__track-item-duration {
+  &__track-item-album {
     font-family: $font-secondary;
-    font-size: 0.9rem;
     color: $cyberpunk-gray;
-    min-width: 3rem;
-    text-align: right;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.25rem;
   }
 
-  &__disconnected-state {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid $cyberpunk-gray;
-    margin-top: 2rem;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, $cyberpunk-red, transparent);
-      box-shadow: 0 0 10px rgba($cyberpunk-red, 0.5);
-    }
-
-    p {
-      font-family: $font-secondary;
-      color: $cyberpunk-light-gray;
-      margin-bottom: 1rem;
-      @include neon-text-glow($cyberpunk-red, 0.3);
-    }
+  &__track-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  &__connect-btn {
-    @include cyberpunk-button($cyberpunk-red, $cyberpunk-white);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
+  &__no-preview {
+    font-size: 0.7rem;
+    color: $cyberpunk-red;
+    font-family: $font-secondary;
+  }
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg,
-          transparent,
-          rgba($cyberpunk-white, 0.2),
-          transparent);
-      transition: left 0.5s ease;
-    }
+  &__track-spotify-link {
+    color: #1db954;
+    font-size: 1rem;
+    transition: opacity 0.3s ease;
 
-    &:hover:not(:disabled) {
-      &::before {
-        left: 100%;
-      }
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-
-      &:hover {
-        background: transparent;
-        color: $cyberpunk-red;
-        box-shadow: none;
-      }
+    &:hover {
+      opacity: 0.7;
     }
   }
 
@@ -472,10 +653,26 @@
     &__track-item-artist {
       font-size: 0.8rem;
     }
+
+    &__progress {
+      gap: 0.5rem;
+    }
+
+    &__time {
+      font-size: 0.7rem;
+      min-width: 30px;
+    }
+
+    &__volume {
+      margin-top: 0.5rem;
+    }
+
+    &__volume-slider {
+      width: 80px;
+    }
   }
 }
 
-// Additional animations for music player
 @keyframes scan-line {
   0% {
     left: -100%;
@@ -514,7 +711,30 @@
   }
 }
 
-// Loading indicator styles
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes error-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
 .loading-indicator {
   display: flex;
   gap: 3px;
@@ -542,7 +762,6 @@
   }
 }
 
-// Equalizer bars styles
 .equalizer {
   display: flex;
   gap: 2px;
@@ -572,12 +791,5 @@
       animation-delay: 0.3s;
     }
   }
-}
 
-// Track header layout
-.music-player__track-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.5rem;
 }

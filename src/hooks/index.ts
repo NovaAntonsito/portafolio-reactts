@@ -3,3 +3,4 @@ export { useContactForm } from './useContactForm';
 export { useMusicPlayer } from './useMusicPlayer';
 export { useScrollSpy } from './useScrollSpy';
 export { useErrorHandler } from './useErrorHandler';
+export { useAudioPlayer } from './useAudioPlayer';

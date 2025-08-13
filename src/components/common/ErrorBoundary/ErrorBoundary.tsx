@@ -15,18 +15,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    // Update state so the next render will show the fallback UI
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error to console in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error('ErrorBoundary caught an error:', error, errorInfo);
+    if (import.meta.env.DEV) {
+      console.error('ErrorBoundary detectó un error:', error, errorInfo);
     }
-    
-    // In production, you might want to log this to an error reporting service
-    // logErrorToService(error, errorInfo);
   }
 
   handleRetry = () => {
@@ -35,12 +30,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
-      // Custom fallback UI
       if (this.props.fallback) {
         return this.props.fallback;
       }
 
-      // Default cyberpunk-styled error UI
       return (
         <div className="error-boundary">
           <div className="error-boundary__container">
@@ -49,19 +42,19 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             </div>
             
             <h2 className="error-boundary__title">
-              <span className="error-boundary__glitch" data-text="SYSTEM ERROR">
-                SYSTEM ERROR
+              <span className="error-boundary__glitch" data-text="ERROR DEL SISTEMA">
+                ERROR DEL SISTEMA
               </span>
             </h2>
             
             <p className="error-boundary__message">
-              Something went wrong in the neural network. 
-              The system encountered an unexpected error.
+              Algo salió mal en la red neuronal. 
+              El sistema encontró un error inesperado en la matriz.
             </p>
             
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <details className="error-boundary__details">
-                <summary>Error Details (Development)</summary>
+                <summary>Detalles del Error (Desarrollo)</summary>
                 <pre className="error-boundary__stack">
                   {this.state.error.toString()}
                   {this.state.error.stack}
@@ -74,7 +67,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 className="error-boundary__button"
                 onClick={this.handleRetry}
               >
-                <span className="error-boundary__button-text">RETRY CONNECTION</span>
+                <span className="error-boundary__button-text">REINTENTAR CONEXIÓN</span>
                 <span className="error-boundary__button-glow"></span>
               </button>
               
@@ -82,7 +75,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 className="error-boundary__button error-boundary__button--secondary"
                 onClick={() => window.location.reload()}
               >
-                <span className="error-boundary__button-text">RELOAD SYSTEM</span>
+                <span className="error-boundary__button-text">REINICIAR SISTEMA</span>
                 <span className="error-boundary__button-glow"></span>
               </button>
             </div>
