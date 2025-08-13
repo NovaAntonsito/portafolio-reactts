@@ -32,6 +32,13 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0', // Importante para VPS
+    allowedHosts: [
+      'novaantonsito.com',
+      'www.novaantonsito.com',
+      'localhost',
+      '127.0.0.1',
+      '144.22.47.210'
+    ],
     port: process.env.PORT ? parseInt(process.env.PORT) : 4173, // Usar variable de entorno o puerto por defecto
     hmr: {
       overlay: false,
